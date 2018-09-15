@@ -1,4 +1,4 @@
-# From https://www.alexa.com/topsites
+# From https://www.alexa.com/topsites in Sep 2018
 
 https://www.google.com/
 https://www.youtube.com/
@@ -8,3 +8,5 @@ https://www.wikipedia.org/
 https://www.yahoo.com/
 http://www.qq.com/
 https://world.taobao.com/
+https://www.tmall.com/
+https://twitter.com/
