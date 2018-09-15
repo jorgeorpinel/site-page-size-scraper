@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-Save a list of websites (one per line) in a plain text file. Included in [2018-09-15-alexa-top-sites-10.txt](2018-09-15-alexa-top-sites-10.txt) is a sample list of 10 top sites from Alexa (Sep 2018).  
+Save a list of websites (one per line) in a plain text file. Included in [2018-09-15-alexa-top-sites-10.txt](2018-09-15-alexa-top-sites-50.txt) is a sample list of 50 top sites from Alexa (Sep 2018).  
 Make sure the script is executable by your user:
 ```sh
 chmod u+x from_list.py
@@ -40,7 +40,7 @@ chmod u+x from_list.py
 You may now run it:
 ```sh
 chromedriver 2> /dev/null &  # Implies --remote-debugging-port=9515. Runs in background.
-./from_list.py 2018-09-15-alexa-top-sites-10.txt
+./from_list.py 2018-09-15-alexa-top-sites-50.txt
 ```
 > See the file docstring in from_list.py for further info.
 

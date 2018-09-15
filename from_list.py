@@ -10,7 +10,7 @@ Requires packages listed in requirements.txt
 
 Usage:
     chromedriver 2> /dev/null &
-    python -m from_list 2018-09-15-alexa-top-sites-10.txt
+    python -m from_list 2018-09-15-alexa-top-sites-50.txt
 
 where `site-list` is the path to a plain text file containing a list of websites, one per line.
 """
