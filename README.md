@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-Save a list of websites (one per line) in a plain text file. Included in [2018-09-15-alexa-top-sites-10.txt](2018-09-15-alexa-top-sites-50.txt) is a sample list of 50 top sites from Alexa (Sep 2018).  
+Save a list of web page URIs (one per line) in a plain text file. Included in [2018-09-15-alexa-topsites-50-preview.txt](2018-09-15-alexa-topsites-50-preview.txt) is a sample list of 50 top sites [published by Alexa](https://www.alexa.com/topsites) (Sep 2018).  
 Make sure the script is executable by your user:
 ```sh
 chmod u+x from_list.py

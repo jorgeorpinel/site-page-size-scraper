@@ -1,4 +1,4 @@
-# From https://www.alexa.com/topsites in Sep 2018
+# Copied manually from https://www.alexa.com/topsites in Sep 2018
 
 https://www.google.com/
 https://www.youtube.com/

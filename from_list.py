@@ -53,11 +53,15 @@ tot_lf_enc_data_len = {}
 # tot_dl_enc_data_len = {}
 tot_elapsed = 0
 for url in site_list:
-    # Inits the WebDriver (again).
+    # Initializes the WebDriver (again).
     driver = webdriver.Remote("http://127.0.0.1:9515", capbs, options=options)
     # ^ Requires chromedriver (server) running locally (on default port).
     driver.set_page_load_timeout(10)  # Set the amount of time to wait for a page load to complete...
     driver.set_script_timeout(10)  # Set the amount of time that the to wait during an execute_async_script call...
+
+    # Add http if only domain name is provided.
+    if 'http' != url[0:4]:
+        url = f'http://{url}'
 
     print(f'Loading {url}... ', end='');
     sys.stdout.flush()
