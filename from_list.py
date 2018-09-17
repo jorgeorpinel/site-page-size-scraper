@@ -49,7 +49,8 @@ capbs.update({'loggingPrefs': {'performance': 'ALL'}, 'detach': False})
 
 
 # 2. Crawls each website.
-tot_enc_data_len = {}
+tot_lf_enc_data_len = {}
+# tot_dl_enc_data_len = {}
 tot_elapsed = 0
 for url in site_list:
     # Inits the WebDriver (again).
@@ -79,14 +80,22 @@ for url in site_list:
     logs = driver.execute('getLog', {'type': 'performance'})['value']
 
 
-    # 3. Calculate full size of each - from Network.loadingFinished INFO logs.
+    # 3.a Calculate full size of each - from Network.loadingFinished INFO logs.
+    re_encdatalen = re.compile(r'^.*encodedDataLength":(-?[0-9]+),.*$')
+
     loading_finished = [l['message'] for l in logs if
                         'INFO' == l['level'] and 'Network.loadingFinished' in l['message']]
-    re_encdatalen = re.compile(r'^.*encodedDataLength":(-?[0-9]+),.*$')
-    enc_data_len = [int(re_encdatalen.match(m)[1]) for m in loading_finished]
-    tot_enc_data_len[url] = sum(enc_data_len)
+    lf_enc_data_len = [int(re_encdatalen.match(m)[1]) for m in loading_finished]
+    tot_lf_enc_data_len[url] = sum(lf_enc_data_len)
 
-    print(f'{tot_enc_data_len[url]}B, {elapsed:.3}s')
+    # # 3.b Calculate full size of each - from Network.dataReceived INFO logs.
+    # data_received = [l['message'] for l in logs if
+    #                     'INFO' == l['level'] and 'Network.dataReceived' in l['message']]
+    # dr_enc_data_len = [int(re_encdatalen.match(m)[1]) for m in data_received]
+    # tot_dl_enc_data_len[url] = sum(dr_enc_data_len)
+
+    print(f'loadingFinished: {tot_lf_enc_data_len[url]}B, {elapsed:.3}s')
+    # print(f'loadingFinished: {tot_lf_enc_data_len[url]}B, dataReceived: {tot_dl_enc_data_len[url]}, {elapsed:.3}s')
 
     # Quits the driver to clear cache.
     driver.quit()
@@ -94,7 +103,9 @@ for url in site_list:
 
 
 # 4. Calculates average.
-avg_enc_data_len = sum(tot_enc_data_len.values()) / len(tot_enc_data_len) / 10 ** 6  # MB
-# avg_enc_data_len = sum(tot_enc_data_len.values()) / len(tot_enc_data_len) / 2**20  # MiB
+avg_lf_enc_data_len = sum(tot_lf_enc_data_len.values()) / len(tot_lf_enc_data_len) / 10 ** 6  # MB
+# avg_enc_data_len = sum(tot_lf_enc_data_len.values()) / len(tot_lf_enc_data_len) / 2**20  # MiB
+# avg_dl_enc_data_len = sum(tot_dl_enc_data_len.values()) / len(tot_dl_enc_data_len) / 10 ** 6  # MB
 
-print(f'The average web page size is {avg_enc_data_len}MB from {len(tot_enc_data_len)} processed web sites, loaded in {tot_elapsed:.3}s.')
+print(f'The average web page size is {avg_lf_enc_data_len:.3}MB from {len(tot_lf_enc_data_len)} processed web sites, loaded in {tot_elapsed:.5}s.')
+# print(f'The average web page size is {avg_lf_enc_data_len:.3}MB (loadingFinished) / {avg_dl_enc_data_len:.3}MB (dataReceived) from {len(tot_lf_enc_data_len)} processed web sites, loaded in {tot_elapsed:.5}s.')
