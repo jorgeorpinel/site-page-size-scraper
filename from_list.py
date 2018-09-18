@@ -71,10 +71,12 @@ for url in site_list:
         driver.get(url)
     except TimeoutException as timeout:
         print('Taking too long! Skipping after 10s waits');
+        driver.quit()
         continue
     except WebDriverException as invalidurl:
         print(f'Skipping invalid URL {url}');
         # FIXME: Assumes it's an invalidurl error.
+        driver.quit()
         continue
 
     end = time.time()
@@ -94,6 +96,7 @@ for url in site_list:
     if 0 == lf_enc_data_len_sum:
         print('Empty response! Skipping.')
         # FIXME: Check response code?
+        driver.quit()
         continue
     tot_lf_enc_data_len[url] = lf_enc_data_len_sum
 

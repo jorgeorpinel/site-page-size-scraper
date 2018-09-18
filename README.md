@@ -1,5 +1,5 @@
-© 2018 Dev Spotlight, All Rights Reserved  
-Author: Jorge Orpinel Perez @jorgeorpinel
+Author: [Jorge Orpinel Perez](http://jorge.orpinel.com/)  
+© 2018 Pingdom AB.
 
 # Website Page Size Scraper
 
