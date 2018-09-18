@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Uses Selenium and Headless Chrome to scrap a list of websites.
-Each web site's home is loaded and fully weighted.
+Each website's home is loaded and fully weighted.
 Full weight = all resources that are downloaded initially by the browser to display the home page (no cache).
 
 Developed and tested with Python 3.6
@@ -23,7 +23,7 @@ from argparse import ArgumentParser
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException, TimeoutException
 
-# 0. Loads list of web site addresses from file.
+# 0. Loads list of website addresses from file.
 parser = ArgumentParser()
 parser.add_argument('fname', help="Path to plain text file containing the list of websites, one per line")
 args = parser.parse_args()
@@ -90,16 +90,14 @@ for url in site_list:
     loading_finished = [l['message'] for l in logs if
                         'INFO' == l['level'] and 'Network.loadingFinished' in l['message']]
     lf_enc_data_len = [int(re_encdatalen.match(m)[1]) for m in loading_finished]
-    tot_lf_enc_data_len[url] = sum(lf_enc_data_len)
-
-    # # 3.b Calculate full size of each - from Network.dataReceived INFO logs.
-    # data_received = [l['message'] for l in logs if
-    #                     'INFO' == l['level'] and 'Network.dataReceived' in l['message']]
-    # dr_enc_data_len = [int(re_encdatalen.match(m)[1]) for m in data_received]
-    # tot_dl_enc_data_len[url] = sum(dr_enc_data_len)
+    lf_enc_data_len_sum = sum(lf_enc_data_len)
+    if 0 == lf_enc_data_len_sum:
+        print('Empty response! Skipping.')
+        # FIXME: Check response code?
+        continue
+    tot_lf_enc_data_len[url] = lf_enc_data_len_sum
 
     print(f'loadingFinished: {tot_lf_enc_data_len[url]}B, {elapsed:.3}s')
-    # print(f'loadingFinished: {tot_lf_enc_data_len[url]}B, dataReceived: {tot_dl_enc_data_len[url]}, {elapsed:.3}s')
 
     # Quits the driver to clear cache.
     driver.quit()
@@ -109,7 +107,5 @@ for url in site_list:
 # 4. Calculates average.
 avg_lf_enc_data_len = sum(tot_lf_enc_data_len.values()) / len(tot_lf_enc_data_len) / 10 ** 6  # MB
 # avg_enc_data_len = sum(tot_lf_enc_data_len.values()) / len(tot_lf_enc_data_len) / 2**20  # MiB
-# avg_dl_enc_data_len = sum(tot_dl_enc_data_len.values()) / len(tot_dl_enc_data_len) / 10 ** 6  # MB
 
-print(f'The average web page size is {avg_lf_enc_data_len:.3}MB from {len(tot_lf_enc_data_len)} processed web sites, loaded in {tot_elapsed:.5}s.')
-# print(f'The average web page size is {avg_lf_enc_data_len:.3}MB (loadingFinished) / {avg_dl_enc_data_len:.3}MB (dataReceived) from {len(tot_lf_enc_data_len)} processed web sites, loaded in {tot_elapsed:.5}s.')
+print(f'The average web page size is {avg_lf_enc_data_len:.3}MB from {len(tot_lf_enc_data_len)} processed websites, loaded in {tot_elapsed:.5}s.')
