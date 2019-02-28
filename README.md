@@ -47,6 +47,6 @@ chromedriver 2> /dev/null &  # Implies --remote-debugging-port=9515. Runs in bac
 
 Don't forget to stop chromedriver after running the Python script e.g.:
 ```sh
-fg  # To bering chromedriver tot he background
-^C  # Ctrl + C
+fg  # To bering chromedriver to the background
+^C  # Ctrl+C
 ```
