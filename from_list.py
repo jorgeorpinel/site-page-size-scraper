@@ -44,9 +44,8 @@ options.add_argument('headless')
 
 # See https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log
 # and https://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp#remotewebdriver
-capbs = webdriver.DesiredCapabilities.CHROME.copy()
-capbs.update({'loggingPrefs': {'performance': 'ALL'}, 'detach': False})
-
+capbs = webdriver.DesiredCapabilities.CHROME
+capbs["goog:loggingPrefs"] = {"performance": "ALL"}  # chromedriver 75+
 
 # 2. Crawls each website.
 tot_lf_enc_data_len = {}
